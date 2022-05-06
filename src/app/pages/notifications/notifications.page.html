@@ -1,0 +1,36 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshNotifications($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-text-center ion-padding">
+
+        <ion-text style="margin-top: 50px;" color="primary" *ngIf="notifications?.length === 0">
+          <h5>No notifications yet!</h5>
+        </ion-text>
+
+        <div *ngIf="notifications?.length > 0">
+          <div (click)="onClick(notification)" class="notification-item" [ngClass]="{read: notification?.read}" *ngFor="let notification of notifications">
+            <ion-avatar class="image">
+              <app-user-avatar [userImage]="notification?.notifier?.image" [userFullName]="notification?.notifier?.fullName" [fontSize]="'24px'"></app-user-avatar>
+            </ion-avatar>
+            <ion-label class="notification">
+              <strong>{{ notification?.notifier?.fullName }}</strong>
+              <span>&nbsp;{{ notification.text }}</span>
+            </ion-label>
+            <div class="duration">
+              {{ notification.duration }}
+            </div>
+          </div>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)" [disabled]="!loaded || !hasMore">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

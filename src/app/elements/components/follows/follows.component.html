@@ -1,0 +1,49 @@
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshFollows($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1">
+        <ion-icon name="chevron-back-outline" size="large" (click)="hide()"></ion-icon>
+      </ion-col>
+      <ion-col size="10" class="ion-text-center">
+        <h4 class="title">
+          {{ mode === 'followers' ? 'Followers' : 'Following' }}
+        </h4>
+      </ion-col>
+      <ion-col size="1">&nbsp;</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 15px;">
+
+        <ion-list>
+          <ion-item *ngFor="let user of users" lines="none" class="user-item">
+            <ion-thumbnail slot="start">
+              <app-user-avatar (click)="openPublicProfile(user)" [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'20px'"></app-user-avatar>
+            </ion-thumbnail>
+            <ion-label>
+              <div class="top-part">
+                <span class="full-name">{{ user.fullName }}</span>
+                &nbsp;<span class="username">@{{ user.username }}</span>
+              </div>
+              <div class="bottom-part">
+                {{ user.bio }}&nbsp;
+              </div>
+            </ion-label>
+            <ion-button slot="end" *ngIf="currentUser && currentUser._id != user._id && currentUser.followingUsers.indexOf(user._id) === -1" fill="outline" (click)="followUser(user)" class="follow-button">Follow</ion-button>
+            <ion-button slot="end" *ngIf="currentUser && currentUser._id != user._id && currentUser.followingUsers.indexOf(user._id) >= 0" (click)="unfollowUser(user)" class="follow-button">Following</ion-button>
+          </ion-item>
+        </ion-list>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)" [disabled]="!loaded || !hasMore">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

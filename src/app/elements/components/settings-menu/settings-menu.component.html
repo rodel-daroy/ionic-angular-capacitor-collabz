@@ -1,0 +1,51 @@
+<ion-content fullscreen="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button disabled>&nbsp;</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="hide()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <h3 style="width: 100%;" slot="start" class="ion-text-center">
+      Settings
+    </h3>
+  </ion-toolbar>
+  <ion-grid>
+    <ion-row padding>
+      <ion-col size="8" offset="2">
+
+        <div>
+          <ion-button fill="clear" expand="block" class="item-menu" (click)="onClick('edit-email')">
+            <ion-label>Edit your email</ion-label>
+          </ion-button>
+          <ion-button fill="clear" expand="block" class="item-menu" (click)="onClick('edit-block-list')">
+            <ion-label>Edit Block List</ion-label>
+          </ion-button>
+          <ion-button fill="clear" expand="block" class="item-menu" (click)="hide()" href="/terms" target="_blank">
+            <ion-label>Terms of service</ion-label>
+            <ion-icon slot="end" name="arrow-up"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" expand="block" class="item-menu" (click)="hide()" href="/privacy" target="_blank">
+            <ion-label>Privacy Policy</ion-label>
+            <ion-icon slot="end" name="arrow-up"></ion-icon>
+          </ion-button>
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+    <ion-row padding>
+      <ion-col size="8" offset="2">
+
+        <!-- <ion-list lines="none"> -->
+          <ion-button fill="clear" expand="block" class="item-menu" (click)="onClick('logout')">
+            <ion-label color="danger">Logout</ion-label>
+          </ion-button>
+        <!-- </ion-list> -->
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

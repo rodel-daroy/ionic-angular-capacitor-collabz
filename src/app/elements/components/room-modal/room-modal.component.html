@@ -1,0 +1,167 @@
+<ion-content>
+  <div class="top-bar" #topBar>
+    <div class="all-rooms" (click)="hide()">
+      <ion-icon name="chevron-down"></ion-icon>
+      All rooms
+    </div>
+    <div class="right">
+      <ion-button fill="clear" (click)="openRoomMenu()">
+        <ion-icon slot="icon-only" size="small" name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+  
+  <ion-grid *ngIf="activeRoom" class="ion-padding room-layout">
+    <ion-row>
+      <ion-col size="12" class="room-name">
+        {{ activeRoom.name }}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <div class="speaker-grid" *ngIf="activeHosts.length > 0">
+          <ng-container *ngFor="let user of activeHosts">
+            <div class="avatar-layout">
+              <div class="avatar-container">
+                <div class="mic" *ngIf="((myUser$ | async)?._id == user._id && !(audioOn$ | async)) || (!((myUser$ | async)?._id == user._id) && !user.audioOn)">
+                  <ion-icon name="mic-off"></ion-icon>
+                </div>
+                <div class="avatar-border" [ngClass]="{'talking': user.isTalking && user.audioOn }" (click)="openPublicProfile(user)"><div class="video-frame" #videoFrame [id]="'videoframe-' + user.numberId"></div><app-user-avatar [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'30px'"></app-user-avatar></div>
+              </div>
+              <div class="user-name">
+                {{ user.fullName.split(' ')[0] }}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="audience" *ngIf="activeGuests.length > 0">
+          Guests
+        </div>
+  
+        <div class="speaker-grid" *ngIf="activeGuests.length > 0">
+          <ng-container *ngFor="let user of activeGuests">
+            <div class="avatar-layout">
+              <div class="avatar-container">
+                <div class="mic" *ngIf="((myUser$ | async)?._id == user._id && !(audioOn$ | async)) || (!((myUser$ | async)?._id == user._id) && !user.audioOn)">
+                  <ion-icon name="mic-off"></ion-icon>
+                </div>
+                <div class="avatar-border" [ngClass]="{'talking': user.isTalking && user.audioOn }" (click)="openPublicProfile(user)"><div class="video-frame" #videoFrame [id]="'videoframe-' + user.numberId"></div><app-user-avatar [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'30px'"></app-user-avatar></div>
+              </div>
+              <div class="user-name">
+                {{ user.fullName.split(' ')[0] }}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+  
+        <div class="audience" *ngIf="(activeQueue$ | async)?.length > 0">
+          Q & A
+        </div>
+  
+        <div class="queue-grid" *ngIf="(activeQueue$ | async)?.length > 0">
+          <ng-container *ngFor="let user of activeQueue$ | async">
+            <div class="avatar-layout">
+              <div class="avatar-container">
+                <div class="avatar-border" [ngClass]="{'talking': user.isTalking }" (click)="openPublicProfile(user)"><app-user-avatar [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'20px'"></app-user-avatar></div>
+              </div>
+              <div class="user-name">
+                {{ user.fullName.split(' ')[0] }}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        
+        <div class="audience" *ngIf="activeHosts.length > 0">
+          Audience
+        </div>
+  
+        <div class="audience-grid" *ngIf="(activeAudience$ | async)?.length > 0">
+          <ng-container *ngFor="let user of activeAudience$ | async">
+            <div class="avatar-layout">
+              <div class="avatar-container">
+                <div class="avatar-border" (click)="openPublicProfile(user)"><app-user-avatar [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'20px'"></app-user-avatar></div>
+              </div>
+              <div class="user-name">
+                {{ user.fullName.split(' ')[0] }}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+  
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div
+    class="comment-stream"
+    #commentsStream
+    *ngIf="activeRoom && showComments"
+    [class.comment-stream--empty]="(activeComments$ | async).length === 0"
+    >
+    <ng-container *ngFor="let comment of activeComments$ | async; let i = index">
+      <div class="comment" class="comment" *ngIf="!(currentUser && currentUser.blocks && currentUser.blocks.indexOf(comment.userId) >= 0)">
+        <div class="left" (click)="openCommentUser(comment)">
+          <app-user-avatar [userImage]="comment.userImage" [userFullName]="comment.userFullName" [fontSize]="'13px'"></app-user-avatar>
+        </div>
+        <div class="right">
+          <b>{{ comment.userFullName }}</b><br>
+          {{ comment.comment }}
+        </div>
+        <div class="button-area">
+          <ion-button fill="clear" (click)="openCommentMenu(comment)" *ngIf="!(currentUser?._id === comment.userId)">
+            <ion-icon slot="icon-only" size="small" name="ellipsis-horizontal"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  
+  <div class="new-comment-section" *ngIf="activeRoom && showComments">
+    <form (ngSubmit)="createComment()">
+      <div class="form-layout">
+        <div>
+          <ion-input [(ngModel)]="newComment" name="newComment"></ion-input>
+        </div>
+        <div>
+          <ion-button type="submit" (click)="createComment()" [disabled]="submittedComment">
+            Send
+          </ion-button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="footer" *ngIf="activeRoom">
+    <div class="left">
+      <ion-button color="light" shape="round" (click)="$event.stopPropagation(); leaveRoom()">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        Leave
+      </ion-button>
+    </div>
+    <div class="right">
+  
+      <!-- <ion-button color="light" shape="round">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button> -->
+  
+      <!-- <ion-button color="light" shape="round" *ngIf="!((myUser$ | async)?.role === 'host')">
+        <ion-icon slot="icon-only" name="hand-left-outline"></ion-icon>
+      </ion-button> -->
+
+      <ion-button color="light" shape="round" (click)="clap()">
+        <span style="font-size: 24px;">👏🏽</span>
+      </ion-button>
+  
+      <ion-button color="light" shape="round" *ngIf="(myUser$ | async)?.role === 'host' || (myUser$ | async)?.role === 'guest' || (myUser$ | async)?.role === 'queue'" (click)="toggleMicrophone()">
+        <ion-icon slot="icon-only" [name]="(audioOn$ | async) ? 'mic' : 'mic-off'"></ion-icon>
+      </ion-button>
+  
+      <ion-button color="light" shape="round" *ngIf="(myUser$ | async)?.role === 'host' || (myUser$ | async)?.role === 'guest'" (click)="toggleVideo(activeRoom.videoOn ? false : true)" [disabled]="loadingVideo">
+        <ion-icon slot="icon-only" [name]="activeRoom.videoOn ? 'videocam' : 'videocam-off'"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <div class="clap-spawn" #clapSpawn></div>
+</ion-content>

@@ -1,0 +1,93 @@
+<ion-grid class="top-grid">
+  <ion-row>
+    <ion-col>
+      <ion-icon name="chevron-back-outline" size="large" (click)="hide()"></ion-icon>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-padding ion-text-center" *ngIf="user">
+    <ion-col>
+      <app-user-avatar [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'30px'"></app-user-avatar>
+      <h1>
+        {{ user.fullName }}
+      </h1>
+      <h5>
+        @{{ user.username }}
+      </h5>
+      <div class="follow-button" *ngIf="(currentUser$ | async) && user && (currentUser$ | async)._id !== user._id">
+        <ion-button fill="outline" (click)="followUser()" *ngIf="!isFollowing">Follow</ion-button>
+        <ion-button (click)="unfollowUser()" *ngIf="isFollowing">Following</ion-button>
+      </div>
+      <div class="follower-area">
+        <div class="follower-layout">
+          <div (click)="openFollowers()"><strong>{{ user.followers || 0 }}</strong> followers</div>
+          <div (click)="openFollowing()"><strong>{{ user.following || 0 }}</strong> following</div>
+        </div>
+      </div>
+      <p class="bio">
+        {{ user.bio }}
+      </p>
+      <p class="member-since">
+        Member since {{ user.created | date:'mediumDate' }}
+      </p>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-footer *ngIf="(activeRoom$ | async) && (myUser$ | async) && room && user && (myUser$ | async)._id !== user._id">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+
+        <ion-button expand="block" *ngIf="
+          (myUser$ | async).role === 'host'
+          && user.role === 'audience'
+        " (click)="inviteUserRole('host')" [disabled]="submitted">
+          Invite to host
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          (myUser$ | async).role === 'host'
+          && (user.role === 'guest' || user.role === 'queue')
+        " (click)="changeUserRole('host')" [disabled]="submitted">
+          Add as host
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          ((myUser$ | async).role === 'host' || (myUser$ | async).role === 'guest')
+          && user.role === 'audience'
+        " (click)="inviteUserRole('guest')" [disabled]="submitted">
+          Invite to guest panel
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          ((myUser$ | async).role === 'host' || (myUser$ | async).role === 'guest')
+          && (user.role === 'host' || user.role === 'queue')
+        " (click)="changeUserRole('guest')" [disabled]="submitted">
+          Move to guest panel
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          ((myUser$ | async).role === 'host' || (myUser$ | async).role === 'guest')
+          && user.role === 'audience'
+        " (click)="inviteUserRole('queue')" [disabled]="submitted">
+          Invite to Q & A lineup
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          ((myUser$ | async).role === 'host' || (myUser$ | async).role === 'guest')
+          && (user.role === 'host' || user.role === 'guest')
+        " (click)="changeUserRole('queue')" [disabled]="submitted">
+          Move to Q & A lineup
+        </ion-button>
+
+        <ion-button expand="block" *ngIf="
+          ((myUser$ | async).role === 'host' || (myUser$ | async).role === 'guest')
+          && user.role !== 'audience'
+        " (click)="changeUserRole('audience')" [disabled]="submitted">
+          Move to audience
+        </ion-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

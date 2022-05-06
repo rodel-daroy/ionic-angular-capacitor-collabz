@@ -1,0 +1,55 @@
+<ion-content fullscreen="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="hide()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <form [formGroup]="form">
+    <ion-grid class="ion-text-center" *ngIf="isCapturingEmail">
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <h3>Save your email just in case you can’t login with your phone</h3>
+          <br>
+          <div>
+            <ion-input formControlName="email" class="input-code-number" placeholder="Enter your email" color="primary"></ion-input>
+          </div>
+          <br>
+          <ion-button [disabled]="!form.get('email').value" (click)="updateEmail()" expand="block" size="large" color="primary" shape="round">Update</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-text-center" *ngIf="!isCapturingEmail">
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <h3>Enter your verification code</h3>
+          <p>Enter the code sent to your phone</p>
+          <br>
+          <div>
+            <ion-input formControlName="code" class="input-code-number" placeholder="Verification code" color="primary"></ion-input>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="10" offset="1">
+          Didn't receive your code?
+          <div>
+            <a (click)="resendCode()">Resend Code</a>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="10" offset="1">
+          <br>
+          <ion-button (click)="verify()" expand="block" size="large" color="primary" shape="round">Verify</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

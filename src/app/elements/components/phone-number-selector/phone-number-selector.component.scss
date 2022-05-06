@@ -1,0 +1,21 @@
+.phone-selector-container {
+  position: relative;
+}
+
+.phone-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 8px 52px 8px 90px !important;
+  box-sizing: border-box;
+}
+
+.dial-indicator {
+  position: absolute;
+  left: 42px;
+  top: 0;
+  padding: 8px 0;
+  z-index: 1;
+  width: 40px;
+  text-align: center;
+}

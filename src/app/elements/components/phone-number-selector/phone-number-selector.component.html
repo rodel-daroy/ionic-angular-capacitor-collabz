@@ -1,0 +1,10 @@
+<div class="phone-selector-container">
+  <div class="dial-indicator">+{{ dialCode }}</div>
+  <input type="text" class="phone-input" [placeholder]="placeholder || ''"
+    ng2TelInput #selectorInput
+    [ng2TelInputOptions]="{initialCountry: defaultCountryCode$ | async}"
+    (countryChange)="onCountryChange($event)"
+    (keydown)="validateValue($event)"
+    (keyup)="setValue()"
+  />
+</div>

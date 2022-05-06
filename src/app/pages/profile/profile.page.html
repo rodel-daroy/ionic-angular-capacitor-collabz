@@ -1,0 +1,52 @@
+<ion-content>
+
+  <div *ngIf="!currentUser">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" offset="1">
+
+          <form [formGroup]="form" (ngSubmit)="isLogin ? login(formDirective) : signup(formDirective)" #formDirective="ngForm">
+            <ion-item *ngIf="!isLogin">
+              <ion-label position="stacked">Your name</ion-label>
+              <ion-input formControlName="fullName"></ion-input>
+            </ion-item>
+
+            <div class="phone-container" [ngClass]="{'android': isAndroid}">
+              <ion-label position="stacked">Phone number</ion-label>
+              <app-phone-number-selector placeholder="Phone Number" (phoneNumberChange)="setPhoneNumber($event)"></app-phone-number-selector>
+              <input formControlName="phoneNumber" hidden />
+            </div>
+
+            <div class="username-label" [ngClass]="{'android': isAndroid}" *ngIf="!isLogin">Username</div>
+            <ion-item *ngIf="!isLogin">
+              <ion-label>@</ion-label>
+              <ion-input formControlName="username"></ion-input>
+            </ion-item>
+
+            <ion-item detail="false" lines="none">
+              <ion-button class="full-width-button" size="large" type="submit" expand="block" [disabled]="form.invalid || submitted">{{ isLogin ? 'Login' : 'Sign Up' }}</ion-button>
+            </ion-item>
+          </form>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="isLogin">
+        <ion-col size="12" class="ion-text-center ion-padding">
+          Don't have an account? <a (click)="isLogin = false">Sign up</a>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="!isLogin">
+        <ion-col size="12" class="ion-text-center ion-padding">
+          Already have an account? <a (click)="isLogin = true">Log in</a>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="currentUser">
+    <app-edit-profile [user]="currentUser" (fieldChange)="changeProfile($event)"></app-edit-profile>
+  </div>
+
+</ion-content>

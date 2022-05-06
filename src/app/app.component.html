@@ -1,0 +1,33 @@
+<ion-app>
+
+  <ion-router-outlet></ion-router-outlet>
+
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+
+      <ion-tab-button tab="home">
+        <ion-icon name="home"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="search">
+        <ion-icon name="search"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="create">
+        <ion-icon name="add-circle"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="notifications">
+        <span class="notifications-indicator" *ngIf="newNotifications$ | async"></span>
+        <ion-icon name="notifications"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button tab="profile">
+        <ion-icon name="person-circle"></ion-icon>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+  </ion-tabs>
+
+  <app-room-footer *ngIf="activeRoom"></app-room-footer>
+</ion-app>

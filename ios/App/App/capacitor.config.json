@@ -1,0 +1,13 @@
+{
+  "appId": "com.collabzapp.mobile",
+  "appName": "Collabz",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

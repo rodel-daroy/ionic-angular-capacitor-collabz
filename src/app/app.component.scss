@@ -1,0 +1,14 @@
+ion-tabs {
+  margin-top: var(--ion-safe-area-top);
+}
+
+.notifications-indicator {
+  background: var(--ion-color-danger);
+  border-radius: 50%;
+  height: 10px;
+  left: 50%;
+  position: absolute;
+  top: 8px;
+  width: 10px;
+  z-index: 2;
+}

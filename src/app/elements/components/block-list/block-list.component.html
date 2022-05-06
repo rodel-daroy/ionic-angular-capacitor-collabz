@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refreshBlockedUsers($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="1">
+        <ion-icon name="chevron-back-outline" size="large" (click)="hide()"></ion-icon>
+      </ion-col>
+      <ion-col size="10" class="ion-text-center">
+        <h4 class="title">Blocked Users</h4>
+      </ion-col>
+      <ion-col size="1">&nbsp;</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 15px;">
+
+        <ion-list>
+
+          <ion-item *ngIf="blockedUsers?.length === 0" class="ion-text-center" lines="none">
+            <ion-label><h2>No blocked users found</h2></ion-label>
+          </ion-item>
+
+          <ion-item *ngFor="let blockedUser of blockedUsers" lines="none" class="user-item">
+            <ion-thumbnail slot="start">
+              <app-user-avatar [userImage]="blockedUser.image" [userFullName]="blockedUser.fullName" [fontSize]="'20px'"></app-user-avatar>
+            </ion-thumbnail>
+            <ion-label>
+              <div class="top-part">
+                <span class="full-name">{{ blockedUser.fullName }}</span>
+                &nbsp;<span class="username">@{{ blockedUser.username }}</span>
+              </div>
+              <div class="bottom-part">
+                {{ blockedUser.bio }}&nbsp;
+              </div>
+            </ion-label>
+            <ion-button slot="end" *ngIf="!blockedUser.isBlocked" fill="outline" (click)="blockUser(blockedUser)" class="follow-button">Block</ion-button>
+            <ion-button slot="end" *ngIf="blockedUser.isBlocked" (click)="unblockUser(blockedUser)" class="follow-button">Blocked</ion-button>
+          </ion-item>
+
+        </ion-list>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

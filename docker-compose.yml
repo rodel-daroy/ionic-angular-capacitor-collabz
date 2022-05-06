@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"

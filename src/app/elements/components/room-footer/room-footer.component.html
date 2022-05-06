@@ -1,0 +1,33 @@
+<div class="footer" (click)="openRoomModal()">
+  <div class="left">
+    <app-user-avatar class="avatar-1" [userFullName]="activeHosts[0].fullName" [userImage]="activeHosts[0].image" *ngIf="activeHosts.length > 0"></app-user-avatar>
+    <app-user-avatar class="avatar-2" [userFullName]="activeHosts[1].fullName" [userImage]="activeHosts[1].image" *ngIf="activeHosts.length > 1"></app-user-avatar>
+    <div class="count" *ngIf="activeUsers.length > 2 && activeHosts.length === 1">
+      <div>
+        +{{ (activeUsers.length - 1) | shortNumber }}
+      </div>
+    </div>
+    <div class="count farther" *ngIf="activeUsers.length > 2 && activeHosts.length > 1">
+      <div>
+        +{{ (activeUsers.length - 2) | shortNumber }}
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <ion-button color="light" shape="round" (click)="$event.stopPropagation(); leaveRoom()">
+      <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+    </ion-button>
+    
+    <ion-button color="light" shape="round" (click)="$event.stopPropagation(); clap()">
+      <span style="font-size: 24px;">👏🏽</span>
+    </ion-button>
+
+    <!-- <ion-button color="light" shape="round">
+      <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+    </ion-button> -->
+
+    <ion-button color="light" shape="round" *ngIf="myUser?.role === 'host' || myUser?.role === 'guest' || myUser?.role === 'queue'" (click)="$event.stopPropagation(); toggleMicrophone()">
+      <ion-icon slot="icon-only" [name]="(audioOn$ | async) ? 'mic' : 'mic-off'"></ion-icon>
+    </ion-button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<ion-grid class="ion-padding">
+  <ion-row>
+    <ion-col class="ion-text-right">
+      <div (click)="openSettingsMenu()" class="icon-cog-space ion-float-right ion-activatable ripple-parent">
+        <ion-icon style="font-size: 30px;" name="cog"></ion-icon>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <app-user-avatar (click)="edit(['image'])" [userImage]="user.image" [userFullName]="user.fullName" [fontSize]="'30px'"></app-user-avatar>
+      <h1 (click)="edit(['fullName'])">
+        {{ user.fullName }}
+      </h1>
+      <h5 (click)="edit(['username'])">
+        @{{ user.username }}
+      </h5>
+      <div class="bio-space" (click)="edit(['bio'])">
+        <small *ngIf="!user.bio">
+          Update your bio
+        </small>
+        <p>{{ user?.bio }}</p>
+      </div>
+      <br>
+      <small class="grey-text">Member since {{ user.created | date: 'longDate' }}</small>
+    </ion-col>
+  </ion-row>
+</ion-grid>

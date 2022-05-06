@@ -1,0 +1,54 @@
+ion-grid {
+  width: 100%;
+}
+
+.title {
+  margin: 5px 0 0;
+}
+
+app-user-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.follow-button {
+  width: 90px;
+  height: 30px;
+  margin: 0 0 0 4px;
+  position: relative;
+  top: -5px;
+}
+
+ion-thumbnail {
+  margin-right: 0;
+}
+
+.full-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.username {
+  font-size: 14px;
+}
+
+.top-part {
+  position: relative;
+  top: -5px;
+}
+
+.bottom-part {
+  font-size: 14px;
+  height: 20px;
+  position: relative;
+  top: -5px;
+}
+
+.user-item {
+  --padding-start: 10px;
+  --padding-end: 8px;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+}

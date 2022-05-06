@@ -1,0 +1,38 @@
+.notification-item {
+  display: grid;
+  grid-template-areas: 'image notification duration';
+  grid-template-columns: 60px 1fr 50px;
+  align-items: center;
+  margin-bottom: 12px;
+  column-gap: 8px;
+  font-weight: 400;
+
+
+  &.read {
+    font-weight: 300;
+  }
+}
+
+.image {
+  grid-area: image;
+}
+
+.notification {
+  grid-area: notification;
+  text-align: left;
+  padding: 8px 0;
+}
+
+.duration {
+  grid-area: duration;
+  font-size: 11px;
+  color: var(--ion-color-medium-shade);
+  font-weight: 400;
+}
+
+app-user-avatar {
+  margin-top: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}

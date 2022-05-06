@@ -1,0 +1,4 @@
+<img *ngIf="userImage" [src]="userImage" [ngStyle]="imageStyles">
+<div class="initials" *ngIf="!userImage" [ngStyle]="{'font-size': fontSize}">
+  {{ userInitialA + userInitialB }}
+</div>

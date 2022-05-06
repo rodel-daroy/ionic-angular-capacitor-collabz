@@ -1,0 +1,50 @@
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refreshRooms($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid *ngIf="loaded && rooms.length === 0">
+    <ion-row>
+      <ion-col class="ion-padding ion-text-center">
+        <h3 class="nothing-yet">
+          Nothing yet!
+        </h3>
+        <ion-button routerLink="/create">Start a room</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card class="room" *ngFor="let room of rooms" (click)="joinRoom(room)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card-header>
+            <ion-card-title>{{ room.name }}</ion-card-title>
+          </ion-card-header>
+          <div class="type">
+            <div class="left">
+              <app-user-avatar *ngIf="room.hosts && room.hosts[0]" class="avatar-1" [userImage]="room.hosts[0].image" [userFullName]="room.hosts[0].fullName"></app-user-avatar>
+              <app-user-avatar *ngIf="room.hosts && room.hosts[1]" class="avatar-2" [userImage]="room.hosts[1].image" [userFullName]="room.hosts[1].fullName"></app-user-avatar>
+            </div>
+            <div class="right">
+              <div class="user-list">
+                <div *ngFor="let user of room.previewUsers">{{ user.fullName }} <span *ngIf="user.hasMic">💬</span></div>
+              </div>
+              <div class="stats">
+                {{ room.totalUsers }}
+                <ion-icon name="person"></ion-icon>
+                &nbsp;/&nbsp;
+                {{ (room.hosts.length + room.guests.length) }}
+                <ion-icon name="chatbubble-ellipses"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+
+  <div style="height: 70px; width: 1px;"></div>
+
+</ion-content>

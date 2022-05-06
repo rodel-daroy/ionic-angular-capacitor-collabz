@@ -1,0 +1,374 @@
+$top-bar-height: 44px;
+
+ion-content::part(scroll)::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;  // IE 10+
+  scrollbar-width: none;  // Firefox
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+ion-content {
+  --offset-bottom: auto!important;
+  --overflow: hidden;
+  overflow: auto;
+
+  @extend .hide-scrollbar;
+}
+
+.top-bar {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: $top-bar-height;
+  z-index: 2;
+
+  --background: var(--ion-background-color, #fff);
+  background-color: var(--background);
+
+  .all-rooms {
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 20px;
+  
+    ion-icon {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    ion-icon {
+      color: var(--ion-text-color, #000);
+    }
+  }
+}
+
+
+
+.room-layout {
+  width: 100%;
+  position: relative;
+  top: $top-bar-height;
+
+  @extend .hide-scrollbar;
+}
+
+.room-name {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.comment-stream {
+  position: fixed;
+  bottom: 100px;
+  padding: 15px 0;
+  padding-bottom: 46px;
+  box-sizing: content-box;
+  touch-action: none;
+  width: 100%;
+  overflow: scroll;
+  background: rgb(255,255,255);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9394736842105263) 87%, rgba(255,255,255,0.03421052631578947) 100%);
+  mask-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0.9) 87%, transparent);
+  -webkit-mask-image: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0.9) 87%, transparent);
+
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  max-height: 150px;
+
+  @extend .hide-scrollbar;
+
+  &--empty {
+    visibility: hidden;
+  }
+
+  .comment {
+    color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    padding: 6px 0;
+    display: grid;
+    grid-template-columns: 40px 1fr 60px;
+    font-size: 14px;
+    width: 100%;
+
+    .left {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .right {
+      padding: 0 6px;
+    }
+
+    .button-area {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      ion-button {
+        height: 20px;
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    app-user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  }
+}
+
+.new-comment-section {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  background: white;
+  z-index: 3;
+
+  .form-layout {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    width: 100%;
+    padding: 7px;
+  }
+
+  ion-button {
+    height: 40px;
+  }
+
+  ion-input {
+    height: 48px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 10px;
+  }
+}
+
+.clap-spawn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  z-index: 2;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: white;
+  z-index: 4;
+
+  .left {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+
+    ion-button {
+      height: 50px;
+    }
+  }
+  
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 15px;
+
+    ion-button::part(native) {
+      width: 50px;
+      height: 50px;
+      padding: 0;
+    }
+  
+    ion-button {
+      margin-left: 10px;
+      width: 50px;
+      height: 50px;
+  
+      ion-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+.audience {
+  margin: 20px 0 10px;
+  padding-left: 15px;
+  color: var(--ion-color-medium);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.speaker-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+
+  .avatar-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      .avatar-border {
+        border: 3px solid white;
+        border-radius: 26px;
+        padding: 4px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      
+        &.talking {
+          animation: pulse 1s infinite;
+        }
+
+        .video-frame {
+          position: absolute;
+          left: 3px;
+          top: 3px;
+          z-index: 3;
+          width: calc(100% - 6px);
+          height: calc(100% - 6px);
+          overflow: hidden;
+          border-radius: 20px;
+        }
+      
+        app-user-avatar {
+          width: 80px;
+          height: 80px;
+          border-radius: 20px;
+          box-sizing: border-box;
+          cursor: pointer;
+        }
+      }
+    }
+    
+    .user-name {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+}
+
+.audience-grid {
+  padding-bottom: 340px;
+}
+
+.audience-grid, .queue-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+
+  .avatar-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    
+      .avatar-border {
+        border: 3px solid white;
+        border-radius: 26px;
+        padding: 4px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+        app-user-avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 14px;
+          box-sizing: border-box;
+          cursor: pointer;
+        }
+      }
+    }
+    
+    .user-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+  }
+}
+
+
+@keyframes pulse {
+	0% {
+		border: 3px solid white;
+	}
+
+	50% {
+		border: 3px solid rgb(173, 173, 173);
+	}
+
+	100% {
+		border: 3px solid white;
+	}
+}
+
+
+.mic {
+  position: absolute;
+  right: 0;
+  top: 67px;
+  background-color: var(--ion-color-light);
+  border-radius: 50%;
+  overflow: hidden;
+  font-weight: 700;
+  font-size: 16px;
+  z-index: 6;
+  padding: 4px;
+  color: black;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
